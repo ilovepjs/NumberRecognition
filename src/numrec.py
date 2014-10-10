@@ -3,6 +3,8 @@ from pybrain.structure import SigmoidLayer
 from pybrain.structure.modules import SoftmaxLayer
 from pybrain.datasets import ClassificationDataSet
 from pybrain.supervised.trainers import BackpropTrainer
+from pybrain.tools.xml.networkwriter import NetworkWriter
+from pybrain.tools.xml.networkreader import NetworkReader
 
 
 def main():
@@ -13,7 +15,7 @@ def main():
 
     train_network(network, train_data)
 
-    return None
+    save_network(network, 'trained_network.xml')
 
 # splits training data in to training data and testing data 
 def split_dataset(data_path, ratio):
@@ -41,13 +43,11 @@ def train_network(network, train_data):
     trainer = BackpropTrainer(network, dataset=train_data, learningrate=0.02, momentum=0.4, verbose=True, weightdecay=0.01)
     trainer.trainUntilConvergence(maxEpochs=7)
 
-def save_network():
-    # TODO
-    return None
+def save_network(network, location):
+    NetworkWriter.writeToFile(network, location)
 
-def load_network():
-    # TODO
-    return None
+def load_network(location):
+    return NetworkReader.readFrom(location) 
 
 if __name__ == '__main__':
     main()
